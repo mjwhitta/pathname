@@ -1,0 +1,3 @@
+module gitlab.com/mjwhitta/pathname
+
+go 1.13
