@@ -28,3 +28,7 @@ func main() {
     fmt.Println(pathname.ExpandPath("~user/bin"))
 }
 ```
+
+## Links
+
+- [Source](https://gitlab.com/mjwhitta/pathname)
