@@ -1,13 +1,14 @@
 package pathname
 
 import (
+	"os"
 	"os/user"
 	"path/filepath"
 	"regexp"
 	"strings"
 )
 
-const Version = "1.0.1"
+const Version = "1.0.2"
 
 func Exists(path string) bool {
 	if _, err := os.Stat(ExpandPath(path)); err == nil {
