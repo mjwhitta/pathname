@@ -7,7 +7,17 @@ import (
 	"strings"
 )
 
-const Version = "1.0.0"
+const Version = "1.0.1"
+
+func Exists(path string) bool {
+	if _, err := os.Stat(ExpandPath(path)); err == nil {
+		return true
+	} else if os.IsNotExist(err) {
+		return false
+	} else {
+		panic(err)
+	}
+}
 
 func ExpandPath(path string) string {
 	var usr, e = user.Current()
