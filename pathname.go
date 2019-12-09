@@ -8,16 +8,21 @@ import (
 	"strings"
 )
 
-const Version = "1.0.4"
+// Version is the package version.
+const Version = "1.0.5"
 
+// Basename wraps filepath.Base(path str).
 func Basename(path string) string {
 	return filepath.Base(ExpandPath(path))
 }
 
+// Dirname wraps filepath.Dir(path str).
 func Dirname(path string) string {
 	return filepath.Dir(ExpandPath(path))
 }
 
+// DoesExist returns true if the specified path exists on disk, false
+// otherwise.
 func DoesExist(path string) bool {
 	if _, err := os.Stat(ExpandPath(path)); err == nil {
 		return true
@@ -28,6 +33,8 @@ func DoesExist(path string) bool {
 	}
 }
 
+// ExpandPath will expand the specified path accounting for ~ or ~user
+// shortcuts.
 func ExpandPath(path string) string {
 	var usr, e = user.Current()
 	if e != nil {
