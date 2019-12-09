@@ -1,6 +1,9 @@
 # pathname
 
-A minimal Golang port of Ruby's `Pathname` class.
+A minimal Golang port of Ruby's `Pathname` class. This mostly contains
+functions I use a lot such as `Basename`, `Dirname`, and `ExpandPath`.
+Ruby's `Exist?` method has been renamed `DoesExist` to be more
+Golang-like.
 
 ## How to install
 
@@ -24,8 +27,13 @@ import (
 )
 
 func main() {
-    fmt.Println(pathname.ExpandPath("~/bin"))
-    fmt.Println(pathname.ExpandPath("~user/bin"))
+    if pathname.DoesExist("~/bin") {
+        fmt.Println(pathname.ExpandPath("~/bin"))
+    }
+    if pathname.DoesExist("~user/bin") {
+        fmt.Println(pathname.Dirname("~user/bin"))
+        fmt.Println(pathname.Basename("~user/bin"))
+    }
 }
 ```
 

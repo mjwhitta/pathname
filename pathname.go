@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-const Version = "1.0.3"
+const Version = "1.0.4"
 
 func Basename(path string) string {
 	return filepath.Base(ExpandPath(path))
@@ -18,7 +18,7 @@ func Dirname(path string) string {
 	return filepath.Dir(ExpandPath(path))
 }
 
-func Exists(path string) bool {
+func DoesExist(path string) bool {
 	if _, err := os.Stat(ExpandPath(path)); err == nil {
 		return true
 	} else if os.IsNotExist(err) {
