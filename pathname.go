@@ -9,7 +9,7 @@ import (
 )
 
 // Version is the package version.
-const Version = "1.0.5"
+const Version = "1.0.6"
 
 // Basename wraps filepath.Base(path str).
 func Basename(path string) string {
@@ -34,35 +34,40 @@ func DoesExist(path string) bool {
 }
 
 // ExpandPath will expand the specified path accounting for ~ or ~user
-// shortcuts.
+// shortcuts as well as ENV vars.
 func ExpandPath(path string) string {
-	var usr, e = user.Current()
-	if e != nil {
-		return path
-	}
+	var e error
+	var r = regexp.MustCompile(`^~([^/]+)`)
+	var usr *user.User
 
-	var home = usr.HomeDir
+	// Expand ENV vars
+	path = os.ExpandEnv(path)
 
 	// If just ~
 	if path == "~" {
-		return home
+		usr, e = user.Current()
+		if e != nil {
+			return path
+		}
+		return usr.HomeDir
 	}
 
 	// If path starting with ~/
 	if strings.HasPrefix(path, "~/") {
-		return filepath.Join(home, path[2:])
+		usr, e = user.Current()
+		if e != nil {
+			return path
+		}
+		return filepath.Join(usr.HomeDir, path[2:])
 	}
 
 	// If ~user shortcut
-	var r = regexp.MustCompile(`^~([^/]+)`)
-	var matches = r.FindAllStringSubmatch(path, -1)
-	for _, match := range matches {
+	for _, match := range r.FindAllStringSubmatch(path, -1) {
 		usr, e = user.Lookup(match[1])
 
 		// If user's home directory is found
 		if e == nil {
-			home = usr.HomeDir
-			return r.ReplaceAllString(path, home)
+			return r.ReplaceAllString(path, usr.HomeDir)
 		}
 	}
 
