@@ -8,7 +8,7 @@ SRCDIRS := $(shell find . -name "*.go" -exec dirname {} + | sort -u)
 
 all: build
 
-build: dir fmt
+build: dir fmt lint
 	@go build -ldflags "$(LDFLAGS)" -o "$(OUT)/$(SO).a"
 
 check:
