@@ -6,10 +6,10 @@
 
 ## What is this?
 
-A minimal Golang port of Ruby's `Pathname` class. This mostly contains
+A minimal Go port of Ruby's `Pathname` class. This mostly contains
 functions I use a lot such as `Basename`, `Dirname`, and `ExpandPath`.
 Ruby's `Exist?` method has been renamed `DoesExist` to be more
-Golang-like.
+Go-like.
 
 ## How to install
 
