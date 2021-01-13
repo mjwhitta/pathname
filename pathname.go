@@ -4,12 +4,8 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
-	"regexp"
 	"strings"
 )
-
-// Version is the package version.
-const Version = "1.0.6"
 
 // Basename wraps filepath.Base(path str).
 func Basename(path string) string {
@@ -37,38 +33,48 @@ func DoesExist(path string) bool {
 // shortcuts as well as ENV vars.
 func ExpandPath(path string) string {
 	var e error
-	var r = regexp.MustCompile(`^~([^/]+)`)
+	var sep int
 	var usr *user.User
 
 	// Expand ENV vars
 	path = os.ExpandEnv(path)
 
-	// If just ~
-	if path == "~" {
-		usr, e = user.Current()
-		if e != nil {
-			return path
-		}
-		return usr.HomeDir
-	}
+	// Expand ~
+	if strings.HasPrefix(path, "~") {
+		sep = strings.Index(path, string(filepath.Separator))
 
-	// If path starting with ~/
-	if strings.HasPrefix(path, "~/") {
-		usr, e = user.Current()
-		if e != nil {
-			return path
-		}
-		return filepath.Join(usr.HomeDir, path[2:])
-	}
+		switch sep {
+		case -1:
+			// If just ~
+			if path == "~" {
+				if usr, e = user.Current(); e != nil {
+					return path
+				}
+			} else {
+				// If ~user shortcut
+				if usr, e = user.Lookup(path[1:]); e != nil {
+					return path
+				}
+			}
 
-	// If ~user shortcut
-	for _, match := range r.FindAllStringSubmatch(path, -1) {
-		usr, e = user.Lookup(match[1])
+			path = ""
+		case 1:
+			// If path starting with ~/
+			if usr, e = user.Current(); e != nil {
+				return path
+			}
 
-		// If user's home directory is found
-		if e == nil {
-			return r.ReplaceAllString(path, usr.HomeDir)
+			path = path[2:]
+		default:
+			// If ~user/ shortcut
+			if usr, e = user.Lookup(path[1:sep]); e != nil {
+				return path
+			}
+
+			path = path[sep+1:]
 		}
+
+		return filepath.Join(usr.HomeDir, path)
 	}
 
 	// Otherwise just return path
