@@ -36,6 +36,9 @@ func ExpandPath(path string) string {
 	var sep int
 	var usr *user.User
 
+	// Fix separators
+	path = filepath.Clean(path)
+
 	// Expand ENV vars
 	path = os.ExpandEnv(path)
 
