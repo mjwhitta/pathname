@@ -24,9 +24,11 @@ func DoesExist(path string) bool {
 		return true
 	} else if os.IsNotExist(err) {
 		return false
-	} else {
-		panic(err)
 	}
+
+	// If we got here, the path could not be stat'd but the error did
+	// not claim the path does not exist, so...
+	return true
 }
 
 // ExpandPath will expand the specified path accounting for ~ or ~user
