@@ -1,9 +1,6 @@
 package pathname_test
 
 import (
-	"crypto/rand"
-	"encoding/hex"
-	"io/fs"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -13,49 +10,6 @@ import (
 	assert "github.com/stretchr/testify/require"
 	"gitlab.com/mjwhitta/pathname"
 )
-
-// This is better than t.TempDir() b/c it's self-contained (so doesn't
-// break GitLab runners) and it ensures the permissions are fixed
-// before trying to delete during Cleanup().
-func tempDir(t *testing.T) string {
-	var b []byte = make([]byte, 32)
-	var e error
-	var out string
-
-	if e = os.MkdirAll("testdata", 0o700); e != nil {
-		t.Fatal("could not create testdata directory")
-	} else if _, e = rand.Read(b); e != nil {
-		t.Fatal("could not create random temp directory")
-	}
-
-	out = filepath.Join("testdata", "Test_"+hex.EncodeToString(b))
-
-	t.Cleanup(
-		func() {
-			// Ensure temp dir can be deleted
-			filepath.WalkDir(
-				out,
-				func(path string, d fs.DirEntry, e error) error {
-					if e != nil {
-						return e
-					}
-
-					if d.IsDir() {
-						os.Chmod(path, 0o700)
-					} else {
-						os.Chmod(path, 0o600)
-					}
-
-					return nil
-				},
-			)
-
-			os.RemoveAll(out)
-		},
-	)
-
-	return out
-}
 
 func TestBasename(t *testing.T) {
 	var path string = filepath.Join("path", "to", "file")
@@ -79,7 +33,7 @@ func TestDoesExist(t *testing.T) {
 
 	var e error
 	var tests map[string]testData
-	var tmp string = tempDir(t)
+	var tmp string = t.TempDir()
 
 	if runtime.GOOS == "windows" {
 		t.Skip("runtime OS not supported")
@@ -100,6 +54,7 @@ func TestDoesExist(t *testing.T) {
 	assert.Nil(t, e)
 
 	// Adjust permissions
+	defer os.Chmod(filepath.Join(tmp, "noread"), 0o700)
 	e = os.Chmod(filepath.Join(tmp, "noread"), 0o200)
 	assert.Nil(t, e)
 
