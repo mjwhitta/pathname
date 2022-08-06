@@ -16,6 +16,7 @@ build_certify:
   stage: build
 
 unit_tests:
+  coverage: '/total:\s+\(statements\)\s+\d+.\d+%/'
   script:
     - make gitlab-cover
   stage: test
