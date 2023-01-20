@@ -2,9 +2,9 @@
 
 <a href="https://www.buymeacoffee.com/mjwhitta">🍪 Buy me a cookie</a>
 
-[![Go Report Card](https://goreportcard.com/badge/gitlab.com/mjwhitta/pathname)](https://goreportcard.com/report/gitlab.com/mjwhitta/pathname)
-[![Pipeline](https://gitlab.com/mjwhitta/pathname/badges/master/pipeline.svg)](https://gitlab.com/mjwhitta/pathname/-/pipelines/latest)
-[![Coverage](https://gitlab.com/mjwhitta/pathname/badges/master/coverage.svg)](https://gitlab.com/mjwhitta/pathname)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mjwhitta/pathname)](https://goreportcard.com/report/github.com/mjwhitta/pathname)
+[![Pipeline](https://github.com/mjwhitta/pathname/badges/master/pipeline.svg)](https://github.com/mjwhitta/pathname/-/pipelines/latest)
+[![Coverage](https://github.com/mjwhitta/pathname/badges/master/coverage.svg)](https://github.com/mjwhitta/pathname)
 
 ## What is this?
 
@@ -18,7 +18,7 @@ Go-like.
 Open a terminal and run the following:
 
 ```
-$ go get --ldflags="-s -w" --trimpath -u gitlab.com/mjwhitta/pathname
+$ go get --ldflags="-s -w" --trimpath -u github.com/mjwhitta/pathname
 ```
 
 ## How to use
@@ -31,7 +31,7 @@ package main
 import (
     "fmt"
 
-    "gitlab.com/mjwhitta/pathname"
+    "github.com/mjwhitta/pathname"
 )
 
 func main() {
@@ -52,4 +52,4 @@ func main() {
 
 ## Links
 
-- [Source](https://gitlab.com/mjwhitta/pathname)
+- [Source](https://github.com/mjwhitta/pathname)

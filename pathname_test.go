@@ -7,8 +7,8 @@ import (
 	"runtime"
 	"testing"
 
+	"github.com/mjwhitta/pathname"
 	assert "github.com/stretchr/testify/require"
-	"gitlab.com/mjwhitta/pathname"
 )
 
 func TestBasename(t *testing.T) {
