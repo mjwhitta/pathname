@@ -32,7 +32,7 @@ func DoesExist(path string) (bool, error) {
 	}
 
 	e = e.(*fs.PathError).Err
-	e = errors.Newf("path %s not accesssible: %w", path, e)
+	e = errors.Newf("path %s not accessible: %w", path, e)
 
 	return false, e
 }
