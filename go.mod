@@ -3,8 +3,8 @@ module github.com/mjwhitta/pathname
 go 1.19
 
 require (
-	github.com/mjwhitta/errors v1.0.1
-	github.com/stretchr/testify v1.8.1
+	github.com/mjwhitta/errors v1.0.2
+	github.com/stretchr/testify v1.8.4
 )
 
 require (
