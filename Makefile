@@ -4,7 +4,7 @@
 clean: clean-default
 ifeq ($(unameS),windows)
 ifneq ($(wildcard testdata),)
-	@powershell -c Remove-Item -Force -Recurse ./testdata
+	@remove-item -force -recurse ./testdata
 endif
 else
 	@rm -f -r ./testdata
