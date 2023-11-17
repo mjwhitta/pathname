@@ -2,10 +2,10 @@
 -include local/Makefile
 
 clean: clean-default
-ifeq ($(unameS),Windows)
+ifeq ($(unameS),windows)
 ifneq ($(wildcard testdata),)
 	@powershell -c Remove-Item -Force -Recurse ./testdata
 endif
 else
-	@rm -fr ./testdata
+	@rm -f -r ./testdata
 endif
