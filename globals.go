@@ -1,4 +1,4 @@
 package pathname
 
 // Version is the package version.
-const Version = "1.2.5"
+const Version string = "1.2.6"
