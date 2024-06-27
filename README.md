@@ -18,7 +18,7 @@ Go-like.
 Open a terminal and run the following:
 
 ```
-$ go get --ldflags "-s -w" --trimpath -u github.com/mjwhitta/pathname
+$ go get -u github.com/mjwhitta/pathname
 ```
 
 ## How to use
