@@ -54,7 +54,9 @@ func TestDoesExist(t *testing.T) {
 	assert.Nil(t, e)
 
 	// Adjust permissions
-	defer os.Chmod(filepath.Join(tmp, "noread"), 0o700)
+	defer func() {
+		_ = os.Chmod(filepath.Join(tmp, "noread"), 0o700)
+	}()
 	e = os.Chmod(filepath.Join(tmp, "noread"), 0o200)
 	assert.Nil(t, e)
 
