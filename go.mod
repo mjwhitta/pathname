@@ -1,9 +1,9 @@
 module github.com/mjwhitta/pathname
 
-go 1.22
+go 1.23.0
 
 require (
-	github.com/mjwhitta/errors v1.0.4
+	github.com/mjwhitta/errors v1.0.5
 	github.com/stretchr/testify v1.10.0
 )
 
