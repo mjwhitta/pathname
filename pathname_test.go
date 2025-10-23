@@ -1,3 +1,4 @@
+//nolint:godoclint // These are tests
 package pathname_test
 
 import (
@@ -41,24 +42,28 @@ func TestDoesExist(t *testing.T) {
 
 	// Create directories
 	e = os.MkdirAll(tmp, 0o700)
-	assert.Nil(t, e)
+	assert.NoError(t, e)
 
 	e = os.MkdirAll(filepath.Join(tmp, "noread"), 0o700)
-	assert.Nil(t, e)
+	assert.NoError(t, e)
 
 	// Create files
+	//nolint:gosec // G304 false-positive, no user input
 	_, e = os.Create(filepath.Join(tmp, "test"))
-	assert.Nil(t, e)
+	assert.NoError(t, e)
 
+	//nolint:gosec // G304 false-positive, no user input
 	_, e = os.Create(filepath.Join(tmp, "noread", "test"))
-	assert.Nil(t, e)
+	assert.NoError(t, e)
 
 	// Adjust permissions
 	defer func() {
+		//nolint:gosec // G302 false-positive, this is a directory
 		_ = os.Chmod(filepath.Join(tmp, "noread"), 0o700)
 	}()
+
 	e = os.Chmod(filepath.Join(tmp, "noread"), 0o200)
-	assert.Nil(t, e)
+	assert.NoError(t, e)
 
 	tests = map[string]testData{
 		"Exists": {
@@ -92,10 +97,10 @@ func TestDoesExist(t *testing.T) {
 
 				exists, e = pathname.DoesExist(data.fn)
 				if data.err {
-					assert.NotNil(t, e)
-					assert.Equal(t, false, exists)
+					assert.Error(t, e)
+					assert.False(t, exists)
 				} else {
-					assert.Nil(t, e)
+					assert.NoError(t, e)
 					assert.Equal(t, data.expected, exists)
 				}
 			},
@@ -116,11 +121,11 @@ func TestExpandPath(t *testing.T) {
 	var usr *user.User
 
 	nobody, e = user.Lookup("nobody")
-	assert.Nil(t, e)
+	assert.NoError(t, e)
 	assert.NotNil(t, nobody)
 
 	usr, e = user.Current()
-	assert.Nil(t, e)
+	assert.NoError(t, e)
 	assert.NotNil(t, usr)
 
 	tests = map[string]testData{
