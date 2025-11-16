@@ -216,4 +216,4 @@ run:
   concurrency: 0
   relative-path-mode: gomod
   tests: true
-version: 2
+version: "2"
