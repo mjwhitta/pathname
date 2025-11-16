@@ -9,13 +9,30 @@ on:
     types: ["edited", "opened"]
   workflow_dispatch:
 jobs:
+  golangci:
+    strategy:
+      matrix:
+        go: [stable]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        submodules: true
+    - uses: actions/setup-go@v6
+      with:
+        go-version: ${{ matrix.go }}
+    - name: Lint
+      uses: golangci/golangci-lint-action@v8
+      with:
+        version: latest
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v5
       with:
         submodules: true
-    - uses: actions/setup-go@v3
+    - uses: actions/setup-go@v6
       with:
         go-version: "stable"
     - name: Build
