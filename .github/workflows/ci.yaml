@@ -9,23 +9,6 @@ on:
     types: ["edited", "opened"]
   workflow_dispatch:
 jobs:
-  golangci:
-    strategy:
-      matrix:
-        go: [stable]
-        os: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-    - uses: actions/checkout@v5
-      with:
-        submodules: true
-    - uses: actions/setup-go@v6
-      with:
-        go-version: ${{ matrix.go }}
-    - name: Lint
-      uses: golangci/golangci-lint-action@v8
-      with:
-        version: latest
   build:
     runs-on: ubuntu-latest
     steps:
@@ -35,6 +18,24 @@ jobs:
     - uses: actions/setup-go@v6
       with:
         go-version: "stable"
+    - env:
+        GOOS: "darwin"
+      name: Lint (darwin)
+      uses: golangci/golangci-lint-action@v8
+      with:
+        version: latest
+    - env:
+        GOOS: "linux"
+      name: Lint (linux)
+      uses: golangci/golangci-lint-action@v8
+      with:
+        version: latest
+    - env:
+        GOOS: "windows"
+      name: Lint (windows)
+      uses: golangci/golangci-lint-action@v8
+      with:
+        version: latest
     - name: Build
       run: make
     - name: Test coverage
